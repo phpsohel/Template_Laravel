@@ -75,6 +75,7 @@
             a.nav-link i,
             p {
                 color: #7c5cc4;
+                font-weight: 600!important;
             }
 
             a.nav-link p {
