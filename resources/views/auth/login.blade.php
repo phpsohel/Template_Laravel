@@ -21,17 +21,16 @@
 toastr.success("{{ Session('success')}}")
 @endif()
 
-<body class="hold-transition login-page" style="background-image:url('{{asset('image/login-bg.jpg')}}');min-height: 100%;background-size: cover;background-position: center;">
+<body class="hold-transition login-page" style="background-image:url('{{asset('image/doctor.jpg')}}');min-height: 100%;background-size: cover;background-position: center;">
 
     <div class=" login-box">
         <div class="login-logo">
             <a href=""></a>
         </div>
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        {{-- Login Error Message Disable --}}
+        {{-- <x-auth-session-status class="mb-4" :status="session('status')" />
+        <x-auth-validation-errors class="mb-4" :errors="$errors" /> --}}
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-        <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
                 <h2 class="text-center"><b>Log in</b></h2>
@@ -56,15 +55,15 @@ toastr.success("{{ Session('success')}}")
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input type="checkbox" name="remember" id="remember">
+                                <input type="checkbox" id="remember_me" name="remember" value="1" id="remember_me">
+
+
                                 <label for="remember">{{ __('Remember me') }}</label>
                             </div>
                         </div>
-                        <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">{{ __('Log in') }}</button>
                         </div>
-                        <!-- /.col -->
                     </div>
                 </form>
 
@@ -100,6 +99,8 @@ toastr.success("{{ Session('success')}}")
     <script src="{{ asset('admin/auth/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('admin/auth/js/dist/adminlte.min.js')}}"></script>
+
+
     <script>
         @if(Session::has('message'))
         var type = "{{ Session::get('alert-type','info') }}"

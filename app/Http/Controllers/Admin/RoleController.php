@@ -20,7 +20,7 @@ class RoleController extends Controller
     public function index()
     {
         $roles = Role::all();
-        return view('admin.role.index', compact('roles'));
+        return view('role.index', compact('roles'));
     }
 
     /**
@@ -30,7 +30,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -93,7 +93,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    
+
     public function update(Request $request, $id)
     {
         $update = Role::find($id);
@@ -129,7 +129,7 @@ class RoleController extends Controller
             ->get();
        $permissions = Permission::get();
 
-       return view('admin.role.change_permission', compact('permissions','role','rolePermissions'));
+       return view('role.change_permission', compact('permissions','role','rolePermissions'));
     }
     public function PermissionUpdate(Request $request, $id)
     {
@@ -141,5 +141,5 @@ class RoleController extends Controller
                     );
         return redirect()->route('role.index')->with( $notification);
     }
-    
+
 }

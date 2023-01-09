@@ -1,4 +1,4 @@
-@extends('admin.master')
+@extends('layout.main')
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")
 @endif()
@@ -12,7 +12,8 @@ toastr.success("{{ Session('success')}}")
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('index') }}">Home</a></li>
+
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->

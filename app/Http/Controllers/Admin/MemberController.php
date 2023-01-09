@@ -17,7 +17,7 @@ class MemberController extends Controller
     public function index()
     {
         $members = Member::where('application_status',1)->get();
-        return view('admin.member.index', compact('members'));
+        return view('member.index', compact('members'));
     }
 
     /**
@@ -39,7 +39,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
       // return $request->all();
-       
+
         $request->validate([
                 'member_name' => 'required',
                 'father_name' => 'required',
@@ -53,12 +53,12 @@ class MemberController extends Controller
         $cbc ="CBC-";
         $num   = '1000';
         $last_id  = Member::orderBy('id','DESC')->first();
-       
+
         if(!empty($last_id))
         {
             $code_add =  ++$last_id->id;
         }else{
-             $code_add = 1; 
+             $code_add = 1;
         }
         $code = $cbc.($num + $code_add) ;
         $store->cbc_sl =  $code;
@@ -79,7 +79,7 @@ class MemberController extends Controller
         $store->nid =  $request->nid;
         $store->payment_status =  $request->payment_status;
         $store->cbc_type =  $request->cbc_type;
-        
+
         if($request->file('photo')){
             $file = $request->file('photo');
             $fileName = date('Y-m-d ').$file->getClientOriginalName();
@@ -103,7 +103,7 @@ class MemberController extends Controller
     public function show($id)
     {
         $show = Member::find($id);
-        return view('admin.member.show_member',compact('show'));
+        return view('member.show_member',compact('show'));
     }
 
     /**
@@ -114,7 +114,7 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-       
+
     }
 
     /**
@@ -194,18 +194,18 @@ class MemberController extends Controller
     public function request_list()
     {
         $members = Member::where('application_status',2)->get();
-        return view('admin.member.request_list', compact('members'));
+        return view('member.request_list', compact('members'));
     }
     public function reject_list()
     {
             $members = Member::where('application_status',3)->get();
-            return view('admin.member.rejected_list', compact('members'));
-         
+            return view('member.rejected_list', compact('members'));
+
     }
     public function report(Request $request)
     {
         $reports = Member::get();
-        return view('admin.member.report', compact('reports'));
+        return view('member.report', compact('reports'));
     }
     public function Ajaxreport(Request $request)
     {
@@ -214,9 +214,9 @@ class MemberController extends Controller
         {
             $searchs = Member::get();
         }else{
-          $searchs = Member::where('cbc_type',$cbc_type)
+          $searchs = Member::where('cbc_type',$cbc_type)->where('application_status', 1)
                     ->get();
         }
-        return view('admin.member.search_report', compact('searchs'));
+        return view('member.get_by_ajax_search', compact('searchs'));
     }
 }

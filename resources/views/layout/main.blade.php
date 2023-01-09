@@ -3,15 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> @yield('title', 'Dashboard')</title>
+    <title> @yield('title', 'Narayan Ganj Health')</title>
     <link rel="icon" href="{{ asset('image/2022-12-27 logocewa.png') }}" />
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{asset('admin/plugins/fontawesome-free/css/font-6all.min.css')}}">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="{{asset('admin/plugins/select2/css/select2.min.css')}}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{asset('admin/plugins/select2/css/select2.min.css')}}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}">
     <!-- Tempusdominus Bootstrap 4 -->
@@ -38,35 +38,55 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{asset('admin/plugins/summernote/summernote-bs4.min.css')}}">
     <style>
-            .btn-secondary {
-                border-color: #fff!important;
+        .btn-secondary {
+            border-color: #fff !important;
+        }
+
+        .buttons-copy {
+            margin: 5px;
+            background: #ff7588;
+        }
+
+        .buttons-csv {
+            margin: 5px;
+            background: #ffc107;
+
+        }
+
+        .buttons-excel {
+            margin: 5px;
+            background: #bec561;
+        }
+
+        .buttons-pdf {
+            margin: 5px;
+            background: #ff7588;
+        }
+
+        .buttons-print {
+            margin: 5px;
+            background: #2196f3;
+        }
+
+        .buttons-collection {
+            margin: 5px;
+            background: #7c5cc4;
+        }
+            a.nav-link i,
+            p {
+                color: #7c5cc4;
             }
 
-            .buttons-copy {
-                margin: 5px;
-                background: #ff7588;
+            a.nav-link p {
+                margin-left: 10px !important;
+                font-size: 17px;
+                font-weight: 500;
             }
-            .buttons-csv {
-                margin: 5px;
-                background: #ffc107;
 
+            .text-light {
+                color: #333 !important;
             }
-            .buttons-excel {
-                margin: 5px;
-                background: #bec561;
-            }
-            .buttons-pdf {
-                margin: 5px;
-                background: #ff7588;
-            }
-            .buttons-print {
-                margin: 5px;
-                background: #2196f3;
-            }
-            .buttons-collection {
-                margin: 5px;
-                background: #7c5cc4;
-            }
+
         </style>
     @yield('css')
 </head>
@@ -116,38 +136,168 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
-
                 <li class="nav-item dropdown">
                     <a class="nav-link " data-toggle="dropdown" href="" style="color: #7c5cc4">
-                        <i class="fa-solid fa-user-plus" ></i> {{Auth()->user()->name ?? ''}}
-                    </a>
-
+                        <i class="fa-solid fa-user-plus"></i> {{Auth()->user()->name ?? ''}}</a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="max-width: 250px;min-width: 220px;">
                         <div class="dropdown-divider"></div>
                         <hr style="padding: 0;margin:0;">
-                        <a href="{{ route('user')}}" class="dropdown-item ">
-                            <i class="fa thin fa-user"></i> Users
-                        </a>
+                        <a href="{{ route('user.profile') }}" class="dropdown-item ">
+
+                            <i class="fa thin fa-user"></i> Profile</a>
                         <div class="dropdown-divider"></div>
                         <hr style="padding: 0;margin:0;">
+
+                        @role('admin||Super-Admin')
                         <a href="{{ route('setting.index')}}" class="dropdown-item ">
-                            <i class="fa thin fa-gear"></i> Settings
-                        </a>
+                            <i class="fa thin fa-gear"></i> Settings</a>
+                        @endrole
                         <div class="dropdown-divider"></div>
                         <hr style="padding: 0;margin:0;">
-                        <a href="{{ route('admin.password-change')}}" class="dropdown-item ">
+                        <a href="{{ route('password-change')}}" class="dropdown-item ">
                             <i class="fa-regular fa-user"></i> Password Change
                         </a>
                         <hr style="padding: 0;margin:0;">
-                        <a href="{{ route('admin.logout')}}" class="dropdown-item ">
+                        <a href="{{ route('logout')}}" class="dropdown-item ">
                             <i class="fa-solid fa-right-from-bracket"></i> Log Out
                         </a>
                     </div>
                 </li>
             </ul>
         </nav>
-        
-        @include('admin.sidebar')
+
+       <aside class="main-sidebar sidebar-light-primary elevation-4">
+           <div class="sidebar">
+               <div class="mt-3 pb-3 mb-3  text-center">
+                   <div class="image">
+                       @php
+                       $general_setting = App\Models\Generalsetting::first();
+                       @endphp
+                       @if (!empty($general_setting))
+                       <img style="max-width: 230px;" src="{{ asset('image/'. $general_setting->site_logo ?? '') }}" class="elevation-2" alt="{{ $general_setting->site_title ?? '' }}">
+                       @else
+                       <img style="max-width: 230px ;height: 100px;" src="{{ asset('image/no_image.jpg') }}" class="elevation-2" alt="{{ $general_setting->site_title ?? '' }}">
+                       @endif
+                   </div>
+                   <div class="info">
+                       {{-- <a href="#" class="d-block">{{ Auth()->user()->name ?? ''}}</a> --}}
+                   </div>
+               </div>
+               <div class="form-inline">
+                   <div class="input-group" data-widget="sidebar-search">
+                       <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                       <div class="input-group-append">
+                           <button class="btn btn-sidebar">
+                               <i class="fas fa-search fa-fw"></i>
+                           </button>
+                       </div>
+                   </div>
+               </div>
+               <nav class="mt-2">
+                   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                       @role('admin||Super-Admin')
+
+                       <li class="nav-item border-bottom">
+                           <a href="{{ route('index') }}" class="nav-link">
+                               <i class="fa-solid fa-house"></i>
+                               <p>Dashboard</p>
+                           </a>
+                       </li>
+                       <li class="nav-item border-bottom">
+                           <a href="" class="nav-link">
+                               <i class="fa-solid fa-user"></i>
+                               <p>Member <i class="fas fa-angle-left right"></i></p>
+                           </a>
+                           <ul class="nav nav-treeview">
+                               <li class="nav-item border-bottom fa-carret">
+                                   <a href="{{ route('member.request_list') }}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p> Request List</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item border-bottom fa-carret">
+                                   <a href="{{ route('member.index') }}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>Member List</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item border-bottom">
+                                   <a href="{{ route('member.reject_list') }}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p> Rejected List</p>
+                                   </a>
+                               </li>
+                           </ul>
+                       </li>
+                       <li class="nav-item border-bottom">
+
+                           <a href="{{route('member.report')}}" class="nav-link">
+                               <i class="fa-solid fa-hotel"></i>
+                               <p>Member Report</p>
+                           </a>
+                       </li>
+                       <li class="nav-item border-bottom">
+                           <a href="" class="nav-link">
+                               <i class="far fa-bell"></i>
+                               <p>Send Notification</p>
+                           </a>
+                       </li>
+
+                       <li class="nav-item border-bottom">
+                           <a href="{{route('member.report')}}" class="nav-link">
+                               <i class="fa thin fa-gear"></i>
+                               <p>Settings <i class="fas fa-angle-left right"></i></p>
+                           </a>
+                           <ul class="nav nav-treeview">
+                               <li class="nav-item border-bottom fa-carret">
+
+                                   <a href="{{ route('user') }}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>Users</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item border-bottom fa-carret">
+
+                                   <a href="{{ route('role.index') }}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>Role Permission</p>
+                                   </a>
+                               </li>
+                               {{-- <li class="nav-item border-bottom">
+                            <a href="" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Send Notification</p>
+                            </a>
+                        </li> --}}
+
+                               <li class="nav-item border-bottom">
+                                   <a href="{{ route('setting.index') }}" class="nav-link">
+                                       <i class="far fa-circle nav-icon"></i>
+                                       <p>General Settings</p>
+                                   </a>
+                               </li>
+                           </ul>
+                       </li>
+                       @else
+
+                       <li class="nav-item border-bottom">
+                           <a href="{{ route('index') }}" class="nav-link">
+                               <i class="fa-solid fa-house"></i>
+                               <p>Dashboard</p>
+                           </a>
+                       </li>
+                       <li class="nav-item border-bottom">
+                           <a href="{{route('member.index')}}" class="nav-link">
+                               <i class="fa-solid fa-user"></i>
+                               <p>Member</p>
+                           </a>
+                       </li>
+                       @endrole
+                   </ul>
+               </nav>
+           </div>
+       </aside>
+
 
         <div class="content-wrapper">
             @yield('content')
@@ -169,6 +319,7 @@
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
+
     </script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('admin/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -221,23 +372,23 @@
 
     <script>
         //Data Table
-         $(function() {
+        $(function() {
             $(" #example1").DataTable({
-            "responsive": true
-            , "lengthChange": false
-            , "autoWidth": false
-            , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                "responsive": true
+                , "lengthChange": false
+                , "autoWidth": false
+                , "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
-            "paging": true
-            , "lengthChange": false
-            , "searching": false
-            , "ordering": true
-            , "info": true
-            , "autoWidth": false
-            , "responsive": true
+                "paging": true
+                , "lengthChange": false
+                , "searching": false
+                , "ordering": true
+                , "info": true
+                , "autoWidth": false
+                , "responsive": true
             , });
-         });
+        });
 
         //Image click
         $(document).ready(() => {
@@ -246,12 +397,12 @@
                 console.log(file);
                 if (file) {
                     let reader = new FileReader();
-                reader.onload = function(event) {
-                    console.log(event.target.result);
-                $('#showImage').attr('src', event.target.result);
+                    reader.onload = function(event) {
+                        console.log(event.target.result);
+                        $('#showImage').attr('src', event.target.result);
                     }
-                reader.readAsDataURL(file);
-                    }
+                    reader.readAsDataURL(file);
+                }
             });
         });
         @if(Session::has('message'))
@@ -274,25 +425,26 @@
                 break;
         }
         @endif
+
     </script>
     <script>
         $(document).on('click', '#delete', function(e) {
             e.preventDefault();
             var link = $(this).attr('href');
             swal({
-                title: 'Are you sure want to delete?'
-                , text: 'Once You delete,This will be permently Delete'
-                , icon: 'warning'
-                , buttons: true
-                , dangerMode: true
-            })
-            .then((willdelete) => {
-                if (willdelete) {
-                window.location.href = link;
-                } else {
-                swal('Saafe data')
-                }
-            });
+                    title: 'Are you sure want to delete?'
+                    , text: 'Once You delete,This will be permently Delete'
+                    , icon: 'warning'
+                    , buttons: true
+                    , dangerMode: true
+                })
+                .then((willdelete) => {
+                    if (willdelete) {
+                        window.location.href = link;
+                    } else {
+                        swal('Saafe data')
+                    }
+                });
         });
 
     </script>
@@ -304,9 +456,11 @@
     </script>
     {{-- Checkbox Selected With change_permission.blade.php --}}
     <script type="text/javascript">
-       $("#select_all").click(function(){
+        $("#select_all").click(function() {
             $('input:checkbox').not(this).prop('checked', this.checked);
-       });
+        });
+
     </script>
 </body>
 </html>
+

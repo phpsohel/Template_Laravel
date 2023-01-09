@@ -82,4 +82,9 @@
 @else
 <div class="text-danger">Sorry Your Given Number is Not Found!</div>
 @endif
+<script>
+$('#example1').DataTable( {
+
+responsive: true
+} );</script>
 

@@ -1,4 +1,4 @@
-@extends('admin.master')
+@extends('layout.main')
 @section('title', 'Profile')
 <!-- Theme style -->
 @section('content')

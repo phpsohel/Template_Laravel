@@ -1,5 +1,4 @@
-@extends('admin.master')
-@section('title', 'Role Index')
+@extends('layout.main')
 @section('content')
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")
@@ -57,7 +56,7 @@ toastr.success("{{ Session('success')}}")
                                             </div>
                                         </td>
                                     </tr>
-                                    @include('admin.role.edit_modal')
+                                    @include('role.edit_modal')
                                     @endforeach
                                 </tbody>
                                 </tfoot>

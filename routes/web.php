@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MemberController;
-use App\Http\Controllers\Admin\ContainerController;
 use App\Http\Controllers\Admin\GeneralSettingController;
 
 // All Route
@@ -19,17 +18,10 @@ Route::get('/clear', function() {
 // Login
 // ===============
 Route::get('/', function () {
-    return redirect('/register-form');
+    return redirect('/login');
 });
-Route::controller(AdminController::class)->group(function()
-{
-    Route::get('/register-form', 'register_form')->name('register_form');
-    Route::post('/register-form', 'store_register_form')->name('register_form.store');
-});
-// //Register Form
-// Route::get('/register-form', function(){
-//         return view('');
-// });
+
+
 //Admin
 // ============================
 Route::middleware(['auth'])->group(function () {
@@ -43,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('member/request_list', 'request_list')->name('member.request_list');
         Route::get('member/reject_list', 'reject_list')->name('member.reject_list');
-        
+
         Route::get('member/report', 'report')->name('member.report');
         Route::get('member/report', 'report')->name('member.report');
         Route::get('search/member/report', 'Ajaxreport')->name('member.search.report');
@@ -51,35 +43,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::controller(AdminController::class)->group(function()
         {
-        Route::get('admin/dashboard', 'index')->name('admin.dashboard');
-        Route::get('admin/profile', 'profile')->name('admin.profile');
-        Route::get('admin/password-change', 'PasswordChange')->name('admin.password-change');
-        Route::post('admin/store/password-change', 'StorePasswordChange')->name('admin.store.password-change');
-        Route::get('admin/logout', 'Logout')->name('admin.logout');
-        //Customer Route
-        Route::get('admin/all-customer', 'AllCustomer')->name('admin.all-customer');
-        Route::get('admin/add-customer', 'Add_customer')->name('admin.add-customer');
-        Route::post('admin/store/add-customer', 'Store')->name('admin.store.add-customer');
-        Route::get('admin/edit-customer/{id}', 'Edit')->name('admin.edit-customer');
-        Route::post('admin/update-customer/{id}', 'Update')->name('admin.update-customer');
-        Route::get('admin/status-customer/{id}', 'Status')->name('admin.status-customer');
-        Route::get('admin/delete-customer/{id}', 'Delete')->name('admin.delete-customer');
-        Route::get('admin/view-customer/{id}', 'View_Customer')->name('admin.view-customer');
-        Route::get('admin/view-customer/pdf-generate/{id}', 'Generate')->name('generate-pdf.generate');
-
-        // Add Domain & Hosting Route
-        Route::get('admin/all-domain/', 'All_domain')->name('admin.all-domain');
-        Route::get('admin/add-domain', 'Add_domain')->name('admin.add-domain');
-        Route::post('admin/add-domain', 'StoreAdmin')->name('admin.store.add-domain');
-        Route::get('admin/edit-domain/{id}', 'Edit_Domain')->name('admin.edit-domain');
-        Route::post('admin/update-domain/{id}', 'Update_Domain')->name('admin.update-domain');
-        Route::get('admin/delete-domain/{id}', 'Delete_Domain')->name('admin.delete-domain');
-        Route::get('admin/view-domain/{id}', 'View_Domain')->name('admin.view-domain');
-        Route::get('admin/view-domain/pdf/{id}', 'DomainPdf')->name('domain.pdf');
-
-        // Expire Domain & Hosting Route
-         Route::get('admin/all-expire', 'Expire')->name('admin.all-expire');
-         Route::post('admin/all-expire/search', 'ExpireSearch')->name('admin.all-expire.search');
+        Route::get('/', 'index')->name('index');
+        Route::get('password-change', 'PasswordChange')->name('password-change');
+        Route::post('store/password-change', 'StorePasswordChange')->name('store.password-change');
+        Route::get('logout', 'Logout')->name('logout');
         }
     );
     //User Route
@@ -89,9 +56,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('user/store', 'store')->name('user.store');
             Route::post('user/update/{id}', 'update')->name('user.update');
             Route::get('user/delete/{id}', 'destroy')->name('user.destroy');
+            Route::get('user/user_profile', 'user_profile')->name('user.profile');
+            Route::post('user/update_profile/{id}', 'update_profile')->name('user.update_profile');
         }
     );
-   
     //Role Route
     Route::controller(RoleController::class)->group(function(){
             Route::get('role/index', 'index')->name('role.index');
@@ -110,7 +78,7 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-//Search 
+//Search
 // =================
 Route::controller(AdminController::class)->group(function()
     {

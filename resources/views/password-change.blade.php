@@ -1,5 +1,5 @@
-@extends('admin.master')
-@section('title', 'Profile')
+@extends('layout.main')
+@section('title', 'Change')
 <!-- Theme style -->
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")
@@ -11,7 +11,7 @@ toastr.success("{{ Session('success')}}")
         <div class="card card-danger">
             <div class="card-body">
                 <h2 class="text-center">Change Password</h2>
-                <form action="{{ route('admin.store.password-change')}}" method="POST">
+                <form action="{{ route('store.password-change')}}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label>Old Password <span class="text-danger">*</span></label>

@@ -1,6 +1,5 @@
-@extends('admin.master')
-@section('title', 'Permission Change')
-<!-- Theme style -->
+@extends('layout.main')
+
 @section('content')
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")

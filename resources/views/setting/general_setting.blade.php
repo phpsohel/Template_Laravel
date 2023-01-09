@@ -1,6 +1,4 @@
-@extends('admin.master')
-@section('title', 'General Setting')
-
+@extends('layout.main')
 <!-- Theme style -->
 @section('content')
 @if(Session::has('success'))
@@ -297,7 +295,7 @@ toastr.success("{{ Session('success')}}")
 
                                 </div>
                             </div>
-                           
+
                             <div class="col-md-6">
                             </div>
                             <div class="card-footer">
@@ -307,7 +305,7 @@ toastr.success("{{ Session('success')}}")
                         </div>
                     </div>
                 </form>
-                
+
             </div>
         </div>
     </section>

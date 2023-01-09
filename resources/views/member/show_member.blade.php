@@ -1,5 +1,4 @@
-@extends('admin.master')
-@section('title', 'Member Details')
+@extends('layout.main')
 @section('content')
 <!doctype html>
 <html lang="en">

@@ -1,5 +1,4 @@
-@extends('admin.master')
-@section('title', 'Request Member')
+@extends('layout.main')
 @section('content')
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")
@@ -210,7 +209,7 @@ toastr.success("{{ Session('success')}}")
                 </div>
             </div>
         </div>
-    </div class="container">
+    </div>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -259,10 +258,8 @@ toastr.success("{{ Session('success')}}")
                                 <tbody>
                                     @foreach( $members as $member)
                                     <tr>
-                                        <td>{{ ++$i}}</td>
-                                        <td>
-                                            <img src="{{ asset('member_image/'.$member->photo ??'') }}" alt="" width="80px;">
-                                        </td>
+                                        <td>{{ ++$i }}</td>
+                                        <td><img src="{{ asset('member_image/'.$member->photo ??'') }}" alt="" width="80px;"></td>
                                         <td>{{ $member->member_name ?? ''}}</td>
                                         <td>{{ $member->father_name ?? ''}}</td>
                                         <td>{{ $member->mother_name ?? ''}}</td>
@@ -287,14 +284,13 @@ toastr.success("{{ Session('success')}}")
                                         <td>
                                             <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal" data-target="#edit_member_{{$member->id}}"><i class="fa-solid fa-pen-to-square" style="color:#7c5cc4"></i></button>
 
+                                            {{-- <button type="button" class="btn btn-primary dropdown-item" data-toggle="modal" data-target="#edit_modal{{ $member->id }}" style="color: #7c5cc4"><i class="fa-solid fa-pen-to-square"></i> Edit</button> --}}
 
                                             <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal" data-target="">
-                                                <a id="" href="{{ route('member.show', $member->id) }}" class="text-danger"><i class="fa-solid fa-eye" style="color:#7c5cc4"></i>
+                                                <a href="{{ route('member.show', $member->id) }}" class="text-danger"><i class="fa-solid fa-eye" style="color:#7c5cc4"></i>
                                                 </a></button>
 
-
-                                            <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal"><a id="delete" href="{{ route('member.delete', $member->id) }}" class="text-danger"><i class="fa-solid fa-trash-can"></i>
-                                                </a></button>
+                                            <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal"><a id="delete" href="{{ route('member.delete', $member->id) }}" class="text-danger"><i class="fa-solid fa-trash-can"></i></a></button>
                                         </td>
                                     </tr>
                                     @include('admin.member.edit_modal')
@@ -307,7 +303,6 @@ toastr.success("{{ Session('success')}}")
             </div>
         </div>
     </section>
-    </div>
 </section>
 @endsection
 

@@ -1,5 +1,4 @@
-@extends('admin.master')
-@section('title', 'Rejected Member')
+@extends('layout.main')
 @section('content')
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")
@@ -227,7 +226,7 @@ toastr.success("{{ Session('success')}}")
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-12">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-body">
                             <table id="example1" class="table table-bordered table-striped">
@@ -285,8 +284,6 @@ toastr.success("{{ Session('success')}}")
                                         <td>
                                             <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal" data-target="#edit_member_{{$member->id}}"><i class="fa-solid fa-pen-to-square" style="color:#7c5cc4"></i></button>
 
-                                            {{-- <button type="button" class="btn btn-primary dropdown-item" data-toggle="modal" data-target="#edit_modal{{ $member->id }}" style="color: #7c5cc4"><i class="fa-solid fa-pen-to-square"></i> Edit</button> --}}
-
                                             <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal" data-target="">
                                                 <a href="{{ route('member.show', $member->id) }}" class="text-danger"><i class="fa-solid fa-eye" style="color:#7c5cc4"></i>
                                                 </a></button>
@@ -294,7 +291,7 @@ toastr.success("{{ Session('success')}}")
                                             <button type="button" class="open-EditUnitDialog btn btn-link" data-toggle="modal"><a id="delete" href="{{ route('member.delete', $member->id) }}" class="text-danger"><i class="fa-solid fa-trash-can"></i></a></button>
                                         </td>
                                     </tr>
-                                    @include('admin.member.edit_modal')
+                                    @include('member.edit_modal')
                                     @endforeach
                                 </tbody>
                             </table>
@@ -306,4 +303,3 @@ toastr.success("{{ Session('success')}}")
     </section>
 </section>
 @endsection
-

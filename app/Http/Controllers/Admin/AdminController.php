@@ -49,16 +49,16 @@ class AdminController extends Controller
         $cbc ="CBC-";
         $num   = '1000';
         $last_id  = Member::orderBy('id','DESC')->first();
-       
+
         if(!empty($last_id))
         {
             $code_add =  ++$last_id->id;
         }else{
-             $code_add = 1; 
+             $code_add = 1;
         }
         $code = $cbc.($num + $code_add) ;
         $register->cbc_sl =  $code;
-        
+
         $register->member_name = $request->member_name;
         $register->father_name = $request->father_name;
         $register->mother_name = $request->mother_name;
@@ -79,7 +79,7 @@ class AdminController extends Controller
             $fileName = date('Y-m-d ').$file->getClientOriginalName();
             $file->move(public_path('member_image'),$fileName);
             $register->photo =  $fileName;
-            
+
         }
         $register->save();
         return redirect()->back()->with('message', 'Registration Successfully!');
@@ -91,16 +91,12 @@ class AdminController extends Controller
         // $count = Container::where('softDeletes', 1)->count();
         $count = Member::count();
         $general_setting = Generalsetting::latest()->first();
-        return view('admin.dashboard',compact('count', 'general_setting'));
-    }
-    public function profile()
-    {
-        return view('admin.profile');
+        return view('layout.index',compact('count', 'general_setting'));
     }
 
     public function PasswordChange()
     {
-        return view('admin.password-change');
+        return view('password-change');
     }
     public function StorePasswordChange(Request $request)
     {
@@ -133,13 +129,13 @@ class AdminController extends Controller
     public function search()
     {
         $search = Container::get();
-        return view('admin.search', compact('search'));
+        return view('search', compact('search'));
     }
     public function getBLNumber(Request $request)
     {
         $query = $request->bl_number;
         $item = Container::where('bl_number', '=', $query)->first();
-        return view('admin.get_bl_no_by_ajax', compact('item'));
+        return view('get_bl_no_by_ajax', compact('item'));
 
     }
     public function Logout()
@@ -156,7 +152,7 @@ class AdminController extends Controller
     //Freight
     public function Add_customer()
     {
-        return view('admin.customer.add-customer');
+        return view('customer.add-customer');
     }
     public function Store(Request $request)
     {
@@ -181,16 +177,16 @@ class AdminController extends Controller
             'alert-type' => 'success'
         );
         // $all_customers = Customer::all();
-        return view('admin.customer.add-customer')->with('success' ,'Data added');
+        return view('customer.add-customer')->with('success' ,'Data added');
     }
     public function AllCustomer()
     {
-        return view('admin.customer.all-customer');
+        return view('customer.all-customer');
     }
     public function Edit($id)
     {
         $edit = Customer::find($id);
-        return view('admin.customer.edit-customer', compact('edit'));
+        return view('customer.edit-customer', compact('edit'));
     }
     public function Update(Request $request, $id)
     {
@@ -232,12 +228,12 @@ class AdminController extends Controller
     public function View_Customer($id)
     {
         $view = Customer::find($id);
-       return view('admin.customer.view-customer', compact('view'));
+       return view('customer.view-customer', compact('view'));
     }
     public function Generate($id){
         $show  = Customer::find($id);
         $data = ['show' => $show];
-        $pdf = Pdf::loadView('admin.customer.generate-pdf', $data);
+        $pdf = Pdf::loadView('customer.generate-pdf', $data);
         return $pdf->download('customer'.'-'.$show->id.'.pdf');
     }
 
@@ -246,13 +242,13 @@ class AdminController extends Controller
         $customers  = Customer::all();
         $domains = Domain_Hosting::with('customer')->orderBy('id', 'DESC')->get();
 
-        return view('admin.domain.all-domain', compact('domains', 'customers'));
+        return view('domain.all-domain', compact('domains', 'customers'));
     }
     public function Add_domain()
     {
         $customers = Customer::all();
         $domains = Domain_Hosting::orderBy('id', 'DESC')->get();
-       return view('admin.domain.add-domain', compact('customers','domains'));
+       return view('domain.add-domain', compact('customers','domains'));
     }
     public function StoreAdmin(Request $request)
     {
@@ -289,7 +285,7 @@ class AdminController extends Controller
 
         $customers  = Customer::where('status',1)->select('id','name')->get();
         // return [$edit, $customers];
-        return view('admin.domain.edit-domain', compact('edit', 'customers' ));
+        return view('domain.edit-domain', compact('edit', 'customers' ));
     }
     public function Update_Domain(Request $request, $id)
     {
@@ -317,7 +313,7 @@ class AdminController extends Controller
     public function View_Domain($id)
     {
         $view = Domain_Hosting::find($id);
-        return view('admin.domain.view-domain', compact('view'));
+        return view('domain.view-domain', compact('view'));
     }
     public function DomainPdf($id){
         $show = Domain_Hosting::find($id);
@@ -338,7 +334,7 @@ class AdminController extends Controller
         $cust_name   = '';
         $customers = Customer::orderBy('id', 'DESC')->get();
         $domains = Domain_Hosting::where('domain_expiry_date',date('y-m-d'))->get();
-       return view('admin.expire.all-expire', compact('domains','customers','from','to','cust_name'));
+       return view('expire.all-expire', compact('domains','customers','from','to','cust_name'));
     }
     public function ExpireSearch(Request $request)
     {
@@ -368,7 +364,7 @@ class AdminController extends Controller
         }else{
               $domains = Domain_Hosting::where('domain_expiry_date',date('y-m-d'))->get();
         }
-        return view('admin.expire.all-expire', compact('domains','customers','from','to','cust_name'));
+        return view('expire.all-expire', compact('domains','customers','from','to','cust_name'));
     }
 
 

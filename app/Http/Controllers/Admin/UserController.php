@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Models\User;
 use App\Models\Container;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Auth;
+use Hash;
+use Session;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +22,17 @@ class UserController extends Controller
     {
         $users = User::select('users.*', 'roles.name as role_name')->join('roles', 'users.role_id', 'roles.id')->get();
         $roles = Role::get();
-        return view('user.index', compact('users','roles'));
+       return view('user.index', compact('users','roles'));
+    //    if(auth()->user()->hasRole('admin'))
+    //    {
+    //        $users = User::select('users.*', 'roles.name as role_name')->join('roles', 'users.role_id', 'roles.id')->get();
+    //         $roles = Role::get();
+    //         view('user.index', compact('users','roles'));
+    //    } 
+    //    else{
+    //          $user = User::where('id', auth()->user()->id)->first();
+    //          view('user.user_profile', compact('user'));
+    //    }
     }
 
     /**
@@ -56,6 +68,8 @@ class UserController extends Controller
                 'message' => 'User Added Successfully',
                 'alert-type' => 'success'
             );
+        $user->assignRole($request->role_id);    
+
         return redirect()->back()->with($notification);
     }
 
@@ -104,6 +118,9 @@ class UserController extends Controller
                 'message' => 'User Updated Successfully',
                 'alert-type' => 'success'
             );
+       //$user->assignRole($request->role_id);
+        
+        $user->syncRoles($request->role_id); 
         return redirect()->back()->with($notification);
     }
 
@@ -118,5 +135,43 @@ class UserController extends Controller
         $delete  = User::find($id);
         $delete->delete();
         return redirect()->back();
+    }
+    public function user_profile()
+    {
+        $id = Auth::id(); 
+        $user = User::find($id);
+       return view ('user.user_profile', compact('user'));
+    }
+    public function update_profile(Request $request, $id)
+    {
+         $request->validate([
+            'name'=> 'required',
+            'email'=> 'required',
+            'old_password' =>'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required|same:new_password'
+        ]);
+        $user = User::find($id);
+        $user->name  =  $request->name;
+        $user->email =  $request->email;
+        $hashedPassword = Auth::user()->password;
+        if(Hash::check($request->old_password, $hashedPassword)){
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            Session::flush();
+            $notification = array(
+                    'message' => 'Password Change Successfully',
+                    'alert-type' => 'success'
+                );
+            return redirect('/login')->with($notification);
+
+            }else{
+                $notification = array(
+                    'message' => 'Please Enter Your Valid  Old Password!',
+                    'alert-type' => 'success'
+                );
+                  return back()->with($notification);
+            }
+       return view ('user.user_profile', compact('user'));
     }
 }

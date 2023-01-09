@@ -1,6 +1,4 @@
-@extends('admin.master')
-@section('title', 'All  User')
-
+@extends('layout.main')
 @section('content')
 @if(Session::has('success'))
 toastr.success("{{ Session('success')}}")
@@ -133,7 +131,7 @@ toastr.success("{{ Session('success')}}")
                                                     @if ($user->id <= 1)
                                                         <a href="{{ route('user.destroy',$user->id) }}" id="delete" class="btn btn-primary dropdown-item" style="color: #7c5cc4; display:none;"><i class="fa-solid fa-trash"></i> Delete</a>
                                                         @elseif($user->id > 1)
-                                                        
+
                                                         <a href="{{ route('user.destroy',$user->id) }}" id="delete" class="btn btn-primary dropdown-item" style="color: #7c5cc4;"><i class="fa-solid fa-trash"></i> Delete</a>
                                                     @endif
                                                 </div>
