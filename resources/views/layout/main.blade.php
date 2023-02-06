@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="{{asset('admin/plugins/fontawesome-free/css/font-6all.min.css')}}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{asset('admin/plugins/select2/css/select2.min.css')}}">
+    <!-- Summer Note -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css')}}">
     <!-- Tempusdominus Bootstrap 4 -->
@@ -107,7 +110,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a href="https://acquaintbd.com/contact-us/" target="_blank" class="nav-link" data-toggle="dropdown" style="color: #7c5cc4">
+                    <a href="https://acquaintbd.com/contact-us/" target="_blank" class="nav-link" style="color: #7c5cc4">
                         <i class="fa-solid fa-handshake-angle"></i> Help
                     </a>
                 </li>
@@ -202,6 +205,12 @@
                            <a href="{{ route('index') }}" class="nav-link">
                                <i class="fa-solid fa-house"></i>
                                <p>Dashboard</p>
+                           </a>
+                       </li>
+                       <li class="nav-item border-bottom">
+                           <a href="{{ route('summer-note') }}" class="nav-link">
+                               <i class="fa-solid fa-house"></i>
+                               <p>Summer Note</p>
                            </a>
                        </li>
                        <li class="nav-item border-bottom">
@@ -370,6 +379,9 @@
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('admin/dist/js/pages/dashboard.js')}}"></script>
     <script src="{{ asset('admin/dist/js/PrintJs.js')}}"></script>
+    {{-- Summer Note --}}
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+
 
     <script>
         //Data Table

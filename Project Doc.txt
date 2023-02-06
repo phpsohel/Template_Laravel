@@ -1,0 +1,3 @@
+||TinyMCE Editor
+||Sweet Alert
+||Modal

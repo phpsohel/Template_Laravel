@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\ExtraFeatureControoler;
 use App\Http\Controllers\Admin\GeneralSettingController;
 
 // All Route
@@ -25,6 +26,8 @@ Route::get('/', function () {
 //Admin
 // ============================
 Route::middleware(['auth'])->group(function () {
+    Route::resource('extra',ExtraFeatureControoler::class);
+
     Route::controller(MemberController::class)->group(function(){
         Route::get('member/index', 'index')->name('member.index');
         Route::post('member/store', 'store')->name('member.store');
@@ -47,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('password-change', 'PasswordChange')->name('password-change');
         Route::post('store/password-change', 'StorePasswordChange')->name('store.password-change');
         Route::get('logout', 'Logout')->name('logout');
+        Route::get('summer-note', 'Summernote')->name('summer-note');
         }
     );
     //User Route

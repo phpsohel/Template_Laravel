@@ -366,6 +366,11 @@ class AdminController extends Controller
         }
         return view('expire.all-expire', compact('domains','customers','from','to','cust_name'));
     }
+    //Sumer Note
+    public function Summernote()
+    {
+        return view('summernote.index');
+    }
 
 
 }
